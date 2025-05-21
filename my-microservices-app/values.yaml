@@ -1,0 +1,93 @@
+# Global values (if any)
+global:
+  domain: myapp.local # Example domain for ingress
+
+# Configuration for the customer-service subchart
+# NOTE: For local development (Minikube/Kind/Docker Desktop), build the image locally
+# (e.g., `docker build -t customer-service:0.0.1-SNAPSHOT .` in customer-service dir)
+# and ensure your K8s cluster can access local images (e.g., `minikube docker-env` or `kind load docker-image ...`).
+customer-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: customer-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: customer.myapp.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  # Database connection details passed to customer-service configmap
+  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    database_url: "jdbc:postgresql://{{ .Release.Name }}-customer-db:5432/customerdb"
+    # Secret reference for password is more secure
+    database_username: "customer_user"
+    # database_password_secret: "{{ .Release.Name }}-customer-db-postgresql" # Reference to secret created by DB chart
+    # database_password_secret_key: "postgresql-password" # Key within the secret
+
+# Configuration for the order-service subchart
+# NOTE: Build image locally: `docker build -t order-service:0.0.1-SNAPSHOT .` in order-service dir
+order-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: order-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8081 # Different port for order service
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: order.myapp.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    database_url: "jdbc:postgresql://{{ .Release.Name }}-order-db:5432/orderdb"
+    database_username: "order_user"
+    # database_password_secret: "{{ .Release.Name }}-order-db-postgresql"
+    # database_password_secret_key: "postgresql-password"
+
+# Configuration for the customer-db (PostgreSQL dependency)
+# Values here are prefixed according to the Bitnami PostgreSQL chart's structure
+# Check the Bitnami chart's values.yaml for all available options
+customer-db:
+  enabled: true
+  # Override values from the official postgresql chart
+  auth:
+    database: customerdb
+    username: customer_user
+    # Use existingSecret or provide password (less secure for production)
+    # existingSecret: "{{ .Release.Name }}-customer-db-postgresql" # Name of the secret to use/create
+    password: "changeM3Customer!" # Example: Not recommended for production
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi # Small size for example
+
+# Configuration for the order-db (PostgreSQL dependency)
+order-db:
+  enabled: true
+  auth:
+    database: orderdb
+    username: order_user
+    # existingSecret: "{{ .Release.Name }}-order-db-postgresql"
+    password: "changeM3Order!"
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi 

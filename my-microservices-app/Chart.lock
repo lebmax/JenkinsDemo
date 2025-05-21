@@ -1,0 +1,15 @@
+dependencies:
+- name: customer-service
+  repository: file://./charts/customer-service
+  version: 0.1.0
+- name: order-service
+  repository: file://./charts/order-service
+  version: 0.1.0
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 14.2.3
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 14.2.3
+digest: sha256:fb05af93f8f29ce9b66d65b70bfc5d7f0f8a41d4abdf94e899d3db9fa20fe5f2
+generated: "2025-04-23T22:52:47.24741+03:00"

@@ -1,0 +1,31 @@
+apiVersion: v2
+name: my-microservices-app
+description: Umbrella chart for Customer and Order microservices
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  # Subchart for Customer Service
+  - name: customer-service
+    version: "0.1.0"
+    repository: "file://./charts/customer-service" # Local path reference
+
+  # Subchart for Order Service
+  - name: order-service
+    version: "0.1.0"
+    repository: "file://./charts/order-service"  # Local path reference
+
+ # Dependency for Customer DB (e.g., PostgreSQL)
+  - name: postgresql
+    version: "14.2.3" # Using a specific known stable version from Bitnami history
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: customer-db # Alias to distinguish this instance
+    condition: customer-db.enabled # Allow disabling if needed
+
+ # Dependency for Order DB (e.g., PostgreSQL)
+  - name: postgresql
+    version: "14.2.3" # Using a specific known stable version from Bitnami history
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: order-db # Alias for the order DB instance
+    condition: order-db.enabled

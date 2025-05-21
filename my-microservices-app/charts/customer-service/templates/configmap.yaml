@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "customer-service.fullname" . }}
+  labels:
+    {{- include "customer-service.labels" . | nindent 4 }}
+data:
+  # Example: Generic key-value pairs from .Values.config
+  # Note: We process database_url separately below using tpl
+  {{- range $key, $value := .Values.config }}
+  {{- if ne $key "database_url" }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+
+  # Example: How Spring Boot might consume DB config (adjust keys as needed)
+  # Ensure these keys match what your application expects.
+  # Note: The values come from .Values.config which are set by the umbrella chart.
+  # Use the 'tpl' function to render the database_url which contains Helm templating itself
+  SPRING_DATASOURCE_URL: {{ tpl .Values.config.database_url . | quote }}
+  SPRING_DATASOURCE_USERNAME: {{ .Values.config.database_username | quote }}
+  # SPRING_DATASOURCE_PASSWORD would typically come from a secret, not this ConfigMap.
+
+  # Example: Include other config defined in values.yaml
+  # OTHER_CONFIG_PARAM: {{ .Values.config.some_other_config | quote }} 
