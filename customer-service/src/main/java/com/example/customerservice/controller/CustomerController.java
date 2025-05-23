@@ -23,7 +23,7 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/test")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("TEST!");
     }

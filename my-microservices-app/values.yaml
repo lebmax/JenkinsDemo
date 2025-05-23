@@ -7,7 +7,7 @@ global:
 # (e.g., `docker build -t customer-service:0.0.1-SNAPSHOT .` in customer-service dir)
 # and ensure your K8s cluster can access local images (e.g., `minikube docker-env` or `kind load docker-image ...`).
 customer-service:
-  replicaCount: 2
+  replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: customer-service # Removed registry prefix
