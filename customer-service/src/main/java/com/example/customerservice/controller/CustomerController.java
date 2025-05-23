@@ -23,6 +23,11 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
+    @GetMapping
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("TEST!");
+    }
+
     
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {

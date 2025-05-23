@@ -1,9 +1,10 @@
 1) Запуск
-colima start --kubernetes
+colima start --cpu 4 --memory 6 --kubernetes --network-address
+colima ls
 
 2) Билд
-docker build -t customer-service:1.0 ./customer-service
-docker build -t order-service:1.0 ./order-service
+docker build -t customer-service:0.0.1-SNAPSHOT ./customer-service
+docker build -t order-service:0.0.1-SNAPSHOT ./order-service
 
 3) Проверка ingress
 kubectl get pods -n kube-system
@@ -28,3 +29,39 @@ helm dependency update .
 
 7) Установка Helm-релиза (из папки с чартом)
 helm install myapp ./
+
+8) Проверка установки
+kubectl get pods
+kubectl get svc
+kubectl get ingress
+
+9) Увеличение replicaCount + обновление релиза
+helm upgrade myapp ./ -f values.yaml
+
+Совет: Можно также увидеть ревизии выпуска Helm: helm list (должен показать текущий релиз и версию ревизии 
+2 после обновления) и подробно посмотреть, что изменилось, командой helm diff upgrade (при наличии плагина 
+diff) или просмотрев helm history mymicroservices.
+
+10) Ip кластера
+
+minikube версия "minikube ip"
+
+или
+
+универсальная версия "kubectl get nodes -o wide"
+
+11) /etc/hosts
+
+sudo nano /etc/hosts
+
+12) Проверка доменов
+
+http://order.myapp.local/orders
+http://order.myapp.local/actuator/health
+
+http://customer.myapp.local/customers
+http://customer.myapp.local/actuator/health
+
+13) Перейти в папку jenkins
+
+
