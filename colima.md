@@ -63,5 +63,21 @@ http://customer.myapp.local/customers
 http://customer.myapp.local/actuator/health
 
 13) Перейти в папку jenkins
+cd ../jenkins
 
+14) Запустить jenkins
+docker compose up --build
 
+|
+
+sudo docker-compose up --build
+
+15) Проверка jenkins
+localhost:8080
+
+16) Проверка релизов
+kubectl get pods -n test
+kubectl get pods -n prod
+
+helm list -n test
+helm list -n prod
