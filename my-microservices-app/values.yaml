@@ -4,14 +4,14 @@ global:
 
 # Configuration for the customer-service subchart
 # NOTE: For local development (Minikube/Kind/Docker Desktop), build the image locally
-# (e.g., `docker build -t customer-service:0.0.1-SNAPSHOT .` in customer-service dir)
+# (e.g., `docker build -t customer-service:latest in customer-service dir)
 # and ensure your K8s cluster can access local images (e.g., `minikube docker-env` or `kind load docker-image ...`).
 customer-service:
-  replicaCount: 2
+  replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: customer-service # Removed registry prefix
-    tag: "0.0.1-SNAPSHOT"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -35,13 +35,13 @@ customer-service:
     # database_password_secret_key: "postgresql-password" # Key within the secret
 
 # Configuration for the order-service subchart
-# NOTE: Build image locally: `docker build -t order-service:0.0.1-SNAPSHOT .` in order-service dir
+# NOTE: Build image locally: `docker build -t order-service:latest in order-service dir
 order-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: order-service # Removed registry prefix
-    tag: "0.0.1-SNAPSHOT"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:

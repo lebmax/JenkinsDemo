@@ -6,11 +6,11 @@ set -e
 # --- Configuration ---
 CUSTOMER_SERVICE_DIR="customer-service"
 CUSTOMER_IMAGE_NAME="customer-service"
-CUSTOMER_IMAGE_TAG="0.0.1-SNAPSHOT"
+CUSTOMER_IMAGE_TAG="latest"
 
 ORDER_SERVICE_DIR="order-service"
 ORDER_IMAGE_NAME="order-service"
-ORDER_IMAGE_TAG="0.0.1-SNAPSHOT"
+ORDER_IMAGE_TAG="latest"
 # ---------------------
 
 echo "Building Docker image for Customer Service: ${CUSTOMER_IMAGE_NAME}:${CUSTOMER_IMAGE_TAG}"
