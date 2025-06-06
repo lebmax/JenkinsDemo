@@ -39,7 +39,7 @@ docker volume rm jenkins_home || true
 echo "Removing images..."
 docker image rm ${DOCKER_REGISTRY}/customer-service:1 || true
 docker image rm ${DOCKER_REGISTRY}/order-service:1 || true
-docker image rm jenkins/jenkins:lts-jdk21 || true
+docker image rm jenkins/jenkins:latest || true
 
 echo "Pruning system..."
 docker system prune -af --volumes
