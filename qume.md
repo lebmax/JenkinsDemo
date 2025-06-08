@@ -38,8 +38,8 @@ minikube start --driver qemu --network socket_vmnet --memory='6000M'
 
 6) Загрузка локальных образов в Minikube
 ```bash
-minikube image load customer-service:1.0
-minikube image load order-service:1.0
+minikube image load customer-service:latest
+minikube image load order-service:latest
 ```
 
 6) Проверка ingress
@@ -63,7 +63,6 @@ brew install helm
 ```
  
 9) Обновление зависимостей для helm чартов (будет установлен PostgreSQL)
-Возможно понадобиться VPN если вы в России
 ```bash
 cd my-microservices-app/
 helm dependency update .
@@ -71,6 +70,7 @@ helm dependency update .
 
 10) Установка Helm-релиза (из папки с чартом)
 ```bash
+cd my-microservices-app/
 helm install myapp ./
 ```
 
@@ -123,9 +123,11 @@ sudo nano /etc/hosts
 14) Проверка доменов
 
 http://order.myapp.local/orders
+
 http://order.myapp.local/actuator/health
 
 http://customer.myapp.local/customers
+
 http://customer.myapp.local/actuator/health
 
 
