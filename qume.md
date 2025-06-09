@@ -92,6 +92,7 @@ kubectl logs -f имя_пода
 11) Увеличение replicaCount
 В файле _values.yaml_ можно увеличить replicaCount у какого-то из сервисов
 ```bash
+cd my-microservices-app/
 helm upgrade myapp ./ -f values.yaml
 ```
 
