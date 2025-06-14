@@ -14,6 +14,11 @@ brew install socket_vmnet
 sudo brew services start socket_vmnet
 ```
 
+Или можно выполнить команду запуска не в режиме демона
+```bash
+sudo /usr/local/opt/socket_vmnet/bin/socket_vmnet --vmnet-gateway\=192.168.105.1 /usr/local/var/run/socket_vmnet
+```
+
 3) Установка Minikube
 - для macos
 ```bash

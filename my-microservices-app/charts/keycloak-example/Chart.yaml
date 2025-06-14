@@ -1,0 +1,5 @@
+apiVersion: v2
+name: keycloak-example
+description: A Helm chart for deploying Keycloak with import support
+version: 0.1.0
+appVersion: "22.0.1" 

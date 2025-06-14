@@ -1,0 +1,34 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: "22.0.1"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: keycloak.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+keycloak:
+  extraEnv: []
+  import:
+    enabled: true
+    configMountPath: /opt/keycloak/data/import
+    configs: [] # Список файлов для импорта, например: [realm-export.json] 

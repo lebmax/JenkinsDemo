@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "keycloak-example.fullname" . }}
+  labels:
+    {{- include "keycloak-example.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "keycloak-example.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "keycloak-example.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: keycloak
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+            {{- with .Values.keycloak.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          command:
+            - "sh"
+            - "-c"
+            - >
+              /opt/keycloak/bin/kc.sh import --dir={{ .Values.keycloak.import.configMountPath }} && \
+              /opt/keycloak/bin/kc.sh start-dev
+          volumeMounts:
+            - name: import-config
+              mountPath: {{ .Values.keycloak.import.configMountPath }}
+      volumes:
+        - name: import-config
+          configMap:
+            name: {{ include "keycloak-example.fullname" . }}-import
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }} 
