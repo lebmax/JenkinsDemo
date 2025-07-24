@@ -8,7 +8,7 @@ image:
   repository: order-service # Default to local image name
   pullPolicy: IfNotPresent      # Default to IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.0.1-SNAPSHOT"         # Default tag matching build
+  tag: "latest"         # Default tag matching build
 
 imagePullSecrets: []
 nameOverride: ""
