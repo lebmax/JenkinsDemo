@@ -7,7 +7,7 @@ pipeline {
         GITHUB_USERNAME = credentials('GITHUB_USERNAME')
         DB_NAME         = 'mydb'
         DB_USER         = 'myuser'
-        IMAGE_TAG       = "${env.BUILD_NUMBER}"
+        IMAGE_TAG       = "latest"
     }
 
     stages {
@@ -33,8 +33,10 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 sh """
-                docker build -t ${DOCKER_REGISTRY}/customer-service:${IMAGE_TAG} customer-service
-                docker build -t ${DOCKER_REGISTRY}/order-service:${IMAGE_TAG} order-service
+                echo
+
+                docker build -t customer-service:${IMAGE_TAG} customer-service
+                docker build -t order-service:${IMAGE_TAG} order-service
                 """
             }
         }
@@ -62,6 +64,8 @@ pipeline {
                   --set auth.database=${DB_NAME} \\
                   --set auth.username=${DB_USER} \\
                   --set auth.password=${DB_PASSWORD}
+
+                echo ${DB_PASSWORD}
                 """
             }
         }
@@ -80,12 +84,14 @@ pipeline {
             }
         }
 
+//         export SPRING_DATASOURCE_PASSWORD=$(kubectl get secret --namespace test postgres-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
+
         stage('Helm Deploy to TEST') {
             steps {
                 sh """
                 helm upgrade --install customer-service my-microservices-app/charts/customer-service \\
                   --namespace test --create-namespace \\
-                  --set image.repository=${DOCKER_REGISTRY}/customer-service \\
+                  --set image.repository=customer-service \\
                   --set image.tag=${IMAGE_TAG} \\
                   --set ingress.enabled=true \\
                   --set ingress.hosts[0].host=customer.test.local \\
@@ -94,7 +100,7 @@ pipeline {
 
                 helm upgrade --install order-service my-microservices-app/charts/order-service \\
                   --namespace test --create-namespace \\
-                  --set image.repository=${DOCKER_REGISTRY}/order-service \\
+                  --set image.repository=order-service \\
                   --set image.tag=${IMAGE_TAG} \\
                   --set ingress.enabled=true \\
                   --set ingress.hosts[0].host=order.test.local \\

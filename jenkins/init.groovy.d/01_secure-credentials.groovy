@@ -70,7 +70,7 @@ if (dockerRegistry) {
 
 // Создаём пароль базы данных (используется в helm и kubectl)
 if (dbPassword) {
-    println "--> Creating credential: DB_PASSWORD"
+    println "--> Creating credential: DB_PASSWORD" + dbPassword
     def dbCred = new StringCredentialsImpl(
             CredentialsScope.GLOBAL,
             "DB_PASSWORD",
