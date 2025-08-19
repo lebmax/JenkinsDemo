@@ -39,9 +39,9 @@ docker volume rm jenkins_home || true
 echo "Removing images..."
 docker image rm customer-service:latest || true
 docker image rm order-service:latest || true
-docker image rm jenkins/jenkins:latest || true
+docker image rm jenkins-jenkins:latest || true
 
 echo "Pruning system..."
-docker system prune -af --volumes
+#docker system prune -af --volumes
 
 echo "Done! All clean."
