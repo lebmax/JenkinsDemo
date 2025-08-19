@@ -81,4 +81,3 @@ affinity: {}
 config:
   database_url: "jdbc:postgresql://postgres-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432/mydb"
   database_username: "myuser"
-  database_password: "mypass"

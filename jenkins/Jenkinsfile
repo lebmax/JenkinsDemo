@@ -60,8 +60,7 @@ pipeline {
                 helm upgrade --install postgres helm-stable/postgresql \\
                   --namespace test --create-namespace \\
                   --set auth.database=${DB_NAME} \\
-                  --set auth.username=${DB_USER} \\
-                  --set auth.password=${DB_PASSWORD}
+                  --set auth.username=${DB_USER}
                 """
             }
         }
