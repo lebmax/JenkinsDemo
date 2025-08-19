@@ -37,8 +37,8 @@ docker stop jenkins && docker rm jenkins || true
 docker volume rm jenkins_home || true
 
 echo "Removing images..."
-docker image rm ${DOCKER_REGISTRY}/customer-service:1 || true
-docker image rm ${DOCKER_REGISTRY}/order-service:1 || true
+docker image rm customer-service:latest || true
+docker image rm order-service:latest || true
 docker image rm jenkins/jenkins:latest || true
 
 echo "Pruning system..."
