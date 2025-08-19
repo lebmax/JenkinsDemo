@@ -39,17 +39,17 @@ pipeline {
             }
         }
 
-//         stage('Push Docker Images') {
-//             steps {
-//                 withCredentials([string(credentialsId: 'GHCR_TOKEN', variable: 'GHCR_TOKEN')]) {
-//                     sh """
-//                     echo \$GHCR_TOKEN | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin
-//                     docker push ${DOCKER_REGISTRY}/customer-service:${IMAGE_TAG}
-//                     docker push ${DOCKER_REGISTRY}/order-service:${IMAGE_TAG}
-//                     """
-//                 }
-//             }
-//         }
+        stage('Push Docker Images') {
+            steps {
+                withCredentials([string(credentialsId: 'GHCR_TOKEN', variable: 'GHCR_TOKEN')]) {
+                    sh """
+                    echo \$GHCR_TOKEN | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin
+                    docker push ${DOCKER_REGISTRY}/customer-service:${IMAGE_TAG}
+                    docker push ${DOCKER_REGISTRY}/order-service:${IMAGE_TAG}
+                    """
+                }
+            }
+        }
 
         stage('Install PostgreSQL to TEST') {
             steps {
@@ -62,8 +62,6 @@ pipeline {
                   --set auth.database=${DB_NAME} \\
                   --set auth.username=${DB_USER} \\
                   --set auth.password=${DB_PASSWORD}
-
-                echo ${DB_PASSWORD}
                 """
             }
         }
@@ -81,8 +79,6 @@ pipeline {
                 """
             }
         }
-
-//         export SPRING_DATASOURCE_PASSWORD=$(kubectl get secret --namespace test postgres-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
 
         stage('Helm Deploy to TEST') {
             steps {
