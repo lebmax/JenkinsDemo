@@ -44,6 +44,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'GHCR_TOKEN', variable: 'GHCR_TOKEN')]) {
                     sh """
                     echo \$GHCR_TOKEN | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin
+                    docker push ${DOCKER_REGISTRY}/customer-service:${IMAGE_TAG}
+                    docker push ${DOCKER_REGISTRY}/order-service:${IMAGE_TAG}
                     """
                 }
             }
@@ -52,10 +54,7 @@ pipeline {
         stage('Install PostgreSQL to TEST') {
             steps {
                 sh """
-                helm repo add helm-stable https://charts.helm.sh/stable
-                helm repo update
-
-                helm upgrade --install postgres helm-stable/postgresql \\
+                helm upgrade --install postgres oci://registry-1.docker.io/bitnamicharts/postgresql \\
                   --namespace test --create-namespace \\
                   --set auth.database=${DB_NAME} \\
                   --set auth.username=${DB_USER} \\
@@ -111,7 +110,7 @@ pipeline {
         stage('Install PostgreSQL to PROD') {
             steps {
                 sh """
-                helm upgrade --install postgres helm-stable/postgresql \\
+                helm upgrade --install postgres oci://registry-1.docker.io/bitnamicharts/postgresql \\
                   --namespace prod --create-namespace \\
                   --set auth.database=${DB_NAME} \\
                   --set auth.username=${DB_USER} \\
