@@ -77,6 +77,11 @@ helm dependency update .
 ```bash
 cd my-microservices-app/
 helm install myapp ./
+helm upgrade myapp oci://registry-1.docker.io/bitnamicharts/postgresql \
+  --set image.repository=bitnamilegacy/postgresql \
+  --set volumePermissions.image.repository=bitnamilegacy/os-shell \
+  --set metrics.image.repository=bitnamilegacy/postgres-exporter \
+  --set global.security.allowInsecureImages=true
 ```
 
 10) Проверка установки
