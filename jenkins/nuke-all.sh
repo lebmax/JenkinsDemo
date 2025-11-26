@@ -7,12 +7,12 @@ if [ -f .env ]; then
 fi
 
 # Проверка переменной
-if [ -z "$DOCKER_REGISTRY" ]; then
-  echo "DOCKER_REGISTRY не задан в .env"
-  exit 1
-fi
-
-echo "Using DOCKER_REGISTRY: $DOCKER_REGISTRY"
+#if [ -z "$DOCKER_REGISTRY" ]; then
+#  echo "DOCKER_REGISTRY не задан в .env"
+#  exit 1
+#fi
+#
+#echo "Using DOCKER_REGISTRY: $DOCKER_REGISTRY"
 
 echo "Uninstalling Helm releases..."
 for ns in test prod; do

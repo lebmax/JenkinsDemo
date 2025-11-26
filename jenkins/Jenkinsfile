@@ -54,6 +54,10 @@ pipeline {
                 sh """
                 helm upgrade --install postgres oci://registry-1.docker.io/bitnamicharts/postgresql \\
                   --namespace test --create-namespace \\
+                  --set image.repository=bitnamilegacy/postgresql \\
+                  --set volumePermissions.image.repository=bitnamilegacy/os-shell \\
+                  --set metrics.image.repository=bitnamilegacy/postgres-exporter \\
+                  --set global.security.allowInsecureImages=true \\
                   --set auth.database=${DB_NAME} \\
                   --set auth.username=${DB_USER} \\
                   --set auth.password=${DB_PASSWORD}
@@ -110,6 +114,10 @@ pipeline {
                 sh """
                 helm upgrade --install postgres oci://registry-1.docker.io/bitnamicharts/postgresql \\
                   --namespace prod --create-namespace \\
+                  --set image.repository=bitnamilegacy/postgresql \\
+                  --set volumePermissions.image.repository=bitnamilegacy/os-shell \\
+                  --set metrics.image.repository=bitnamilegacy/postgres-exporter \\
+                  --set global.security.allowInsecureImages=true \\
                   --set auth.database=${DB_NAME} \\
                   --set auth.username=${DB_USER} \\
                   --set auth.password=${DB_PASSWORD}
