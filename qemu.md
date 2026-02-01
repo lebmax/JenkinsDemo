@@ -79,14 +79,6 @@ cd my-microservices-app/
 helm install myapp ./
 ```
 
-```bash
-helm upgrade myapp oci://registry-1.docker.io/bitnamicharts/postgresql \
-  --set image.repository=bitnamilegacy/postgresql \
-  --set volumePermissions.image.repository=bitnamilegacy/os-shell \
-  --set metrics.image.repository=bitnamilegacy/postgres-exporter \
-  --set global.security.allowInsecureImages=true
-```
-
 10) Проверка установки
 ```bash
 kubectl get pods
@@ -168,3 +160,9 @@ helm list -n test
 ```bash
 helm list -n prod
 ```
+
+### Удаление и очистка
+
+```bash
+minikube delete --all --purge
+``` 
