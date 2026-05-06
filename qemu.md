@@ -139,27 +139,7 @@ http://customer.myapp.local/actuator/health
 
 ### Настройка CI/CD через Jenkins
 
-1) см. файл [README.md](README.md)
-
-2) Убедитесь, что в .env указаны ваши значения из github
-Для полей GHCR_TOKEN и GITHUB_TOKEN нужно сгенерить токен в github
-Заходите в свой github, далее Settings -> Developer Settings -> Personal access tokens -> Tokens (classic)
-Далее либо генерируете новый токен, либо используете существующий 
- 
-3) Проверка релизов
-```bash
-kubectl get pods -n test
-```
-```bash
-kubectl get pods -n prod
-```
-
-```bash
-helm list -n test
-```
-```bash
-helm list -n prod
-```
+см. файл [README.md](README.md)
 
 ### Удаление и очистка
 

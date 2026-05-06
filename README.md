@@ -86,7 +86,27 @@ Jenkins будет доступен по адресу: [http://localhost:8080](h
 
 ## Проверка успешного деплоя
 
-### 1. Добавьте записи в `/etc/hosts`
+### 1. Убедитесь, что в .env указаны ваши значения из github
+Для полей GHCR_TOKEN и GITHUB_TOKEN нужно сгенерить токен в github
+Заходите в свой github, далее Settings -> Developer Settings -> Personal access tokens -> Tokens (classic)
+Далее либо генерируете новый токен, либо используете существующий
+
+### 2. Проверка релизов
+```bash
+kubectl get pods -n test
+```
+```bash
+kubectl get pods -n prod
+```
+
+```bash
+helm list -n test
+```
+```bash
+helm list -n prod
+```
+
+### 3. Добавьте записи в `/etc/hosts`
 
 ```bash
 sudo nano /etc/hosts
@@ -101,7 +121,7 @@ sudo nano /etc/hosts
 127.0.0.1 order.prod.local
 ```
 
-### 2. Отправьте запросы на `/actuator/health`
+### 4. Отправьте запросы на `/actuator/health`
 
 ```bash
 curl -s http://customer.test.local/actuator/health
