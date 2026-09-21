@@ -24,7 +24,7 @@
 
 ## Подготовка
 
-### 1.  см. файл [qemu.md](qemu.md)
+### 1.  см. файл [qemu.md](qemu.md) или [hyperv.md](hyperv.md)
  
 ### 2. Создайте файл `jenkins_kubeconfig.yaml`
 
