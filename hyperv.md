@@ -92,6 +92,20 @@ minikube image ls | Select-String "customer-service|order-service"
 
 ## 7. Включение Ingress
 
+Проверка ingress
+
+```powershell
+kubectl get svc -n ingress-nginx
+```
+
+Установка Ingress если на предыдущем шаге получили пустоту
+
+```powershell
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+```
+
+Включение ingress в minikube
+
 ```powershell
 minikube addons enable ingress
 ```
